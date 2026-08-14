@@ -1,0 +1,221 @@
+const pl=[
+    {
+        id:1,
+        club:"Arsenal",
+        Hg:"Emirates Stadium",
+        link:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvsADs_R4ioZi32D5BAcN5KojgIejwxzQffnvng8NyAA&s=10",
+        manager:"Mikel Arteta",
+        preview:"Defending champions aims to defend their title for first time in Pl era and they have the best team on paper with their two closest rivals losing their manager for the season and addition of Newcastle'skipper Bruno G, they only look stronger.",
+        expectations:"Anything other than a title be a failure",
+        predictions:"1st",
+        MVP:"Gabriel"
+    },
+    {
+     id:2,
+     club:"Aston Villa",
+     Hg:"Villa Park",
+     link:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2grncZcLomxV6r1B-Nr37J-pHWw1TM6tiVuBomBH3wQ&s=10",
+    manager:"Unai Emery",
+    preview:"Vila coming of a very fine season after wining Europa and finishing 4th but with Onana injured, Tilemans to Man Utd, Morgan Rogers to chelsea and Luca Digne to PSG. Unai Emergy has its work cut out especailly with Europe.",
+    expectations:"Champions league position finish",
+    predictions:"7th",
+    MVP:"Surpsrise! Surprise! Its Unai Emery again"
+    },
+    {
+        id:3,
+        club:"Bournemouth",
+        Hg:"Vitality Stadium",
+        link:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_6vHTrAML3hu1-O79OCy5VUOW9wiGrIjnZkMECrwDkA&s=10",
+        manager:"Marco Rose",
+        preview:"Bournemouth as usual have lost their best player this season and their manager Andani Iraola to liverpool but got a good manager in Marco Rose. They will hope Andani Iraola doesn't come back to bite, especailly with Europe around.",
+        expectations:"European spot and a deep trophy run",
+        predictions:"9th",
+        MVP:"Rayan"
+    },
+    {
+        id:4,
+        club:"Brentford",
+        Hg:"Community Stadium",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Brentford_Community_Stadium_2020.jpg/250px-Brentford_Community_Stadium_2020.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Keith Andrews",
+        preview:"Brentford go into another season with people doubting them their 6th in a row in PL, they don't have much to change and will hope for Igor Thiago spectacular last season to continue and not to be a fluke. Their management should bail them out again.",
+        expectations:"European Spot",
+        predictions:"12th",
+        MVP:"Keith Andrews"
+    },
+    {
+        id:5,
+        club:"Brighton & Hove Albion",
+        Hg:"American Express Stadium",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Amex_Community_Stadium.jpg/250px-Amex_Community_Stadium.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Fabian Hurzler",
+        preview:"Brighton are in europe for only second time in history and sold their best cb and signed a very talented but slow Vuskovic from Spurs. They will hope to unearth some new talents and repeat last season again",
+        expectations:"European spot and conference title",
+        predictions:"11th",
+        MVP:"Mitoma"
+    },
+    {   
+        id:6,
+        club:"Chelsea",
+        Hg:"Stamford Bridge",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/London_Stamford_Bridge.jpg/250px-London_Stamford_Bridge.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Xabi Alonso",
+        preview:"First time under blueco chelsea have the reason to be postive. They have got Xabi as manager and givem him authroity and made smart signings as well. If Xabi can sort defense, they have attack to run over anyone",
+        expectations:"UCL spot",
+        predictions:"2nd",
+        MVP:"Joao Pedro"
+    },
+    {
+        id:7,
+        club:"Coventry City",
+        Hg:"Building Society Arena",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Ricoh_Arena_Olympic_football_2012.JPG/250px-Ricoh_Arena_Olympic_football_2012.JPG?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Frank Lampard",
+        preview:"Coventry come to Pl after leading pretty much whole season in championship with lampard getting redemption from his last chelsea stint. They would hope for survival but need a mini miracle.",
+        expectations:"Survival",
+        predictions:"19th",
+        MVP:"caleb Yirenki"
+    },
+    {
+        id:8,
+        club:"Crystal Palace",
+        Hg:"Selhurst Park",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/2023_09_09_arne_mueseler_17_18_07_00743-Verbessert-RR_%2853283239217%29.jpg/250px-2023_09_09_arne_mueseler_17_18_07_00743-Verbessert-RR_%2853283239217%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Pierre Sage",
+        preview:"Losing lacrox and manager Glassner has been big blow for Palace they do have good players and should not have to battle for surival. But with europe to juggle, league might become hard for them.",
+        expectations:"Europa title or european spot finish",
+        predictions:"15th",
+        MVP:"Jean Phillipie Mateta"
+    },
+    {
+        id:9,
+        club:"Everton",
+        Hg:"Hill Dickinson Stadium",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Everton%27s_South_Stand.jpg/250px-Everton%27s_South_Stand.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"David Moyes",
+        preview:"Another season same everton, shouldn't have to find relegation but not high enough for europe, they need a rb badly and hope to revive Brenon Jhonson.",
+        expectations:"8th",
+        predictions:"9th"
+    },
+    {
+        id:10,
+        club:"Fulham",
+        Hg:"Craven Cottage",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Johnny_Haynes_Stand.JPG/250px-Johnny_Haynes_Stand.JPG?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"ALbaro Arbeola",
+        preview:"Manager marco Silva has left for portugal league and replaced with sacked madrid manager Arbeloa and they have lost harry wilson and signed highly talented Gonzalo garcia, they will hope Arbeloa finds his feet.",
+        expectations:"8th",
+        predictions:"13th",
+    },
+    {
+        id:11,
+        club:"Hull City",
+        Hg:"MKM stadium",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Match_day_at_the_KC_Stadium_-_geograph.org.uk_-_1497910.jpg/250px-Match_day_at_the_KC_Stadium_-_geograph.org.uk_-_1497910.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Sergej Jakirovic",
+        preview:"Survival is the only aim but looking at the squad, manager needs to make a major miricale otherwise might threaten Derby points tally.",
+        expectations:"17th",
+        predictions:"20th",
+        MVP:"Sergej Jakirovic"
+    },
+    {
+        id:12,
+        club:"Ipswich Town",
+        Hg:"Portman Road",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Portman_Road_aerial_%28cropped%29.jpg/250px-Portman_Road_aerial_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Gary O'Neil",
+        preview:"They have the PL experience two years and gave a good go with some great performance but this league looks stronger and they should hope for some club to have a howler of a season to survive.",
+        expectations:"17th",
+        predictions:"18th",
+        MVP:"Gary O'Neil"
+    },
+    {
+        id:13,
+        club:"Leeds United",
+        Hg:"Elland Road",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Leeds_United_-_31559864360.jpg/250px-Leeds_United_-_31559864360.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Daniel Farke",
+        preview:"One of the clubs with most optimism this season, signed some good players and the perfromances in pre-season has been encouraging they should aim for a european spot.",
+        expectations:"European spot",
+        predictions:"8th",
+        MVP:"Dominic Calvert-Lewin"
+    },
+    {
+        id:14,
+        club:"Liverpool FC",
+        Hg:"Anfield",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Panorama_of_Anfield_with_new_main_stand_%2829676137824%29.jpg/250px-Panorama_of_Anfield_with_new_main_stand_%2829676137824%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Andoni Iraola",
+        preview:"Going for Arne Slot last season Andani Iraola will feel like going from rickshaw to ferrari and injury bound to happen, they would Iraola ability to improve players and individual quality bails them out. Lack of depth a concern",
+        expectations:"top 3",
+        predictions:"5th",
+        MVP:"Florian Wirtz"
+    },
+    {
+        id:15,
+        club:"Manchester City",
+        Hg:"Etihad Stadium",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/City_of_Manchester_Stadium_2023_cropped.jpg/250px-City_of_Manchester_Stadium_2023_cropped.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Enzo Maresca",
+        preview:"Man City have lost their greatest assest in pep gaurdiola but replaced him with someone who has worked here before. With Bernado and potentially rodri leaving, Maresca has the jo in his hand to not let standard drop.",
+        expectations:"Title challenge",
+        predictions:"3rd",
+        MVP:"Erlig Haaland"
+    },
+    {
+        id:16,
+        club:"Manchester United",
+        Hg:"Old Trafford",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/2023_07_31_arne_mueseler_00060-Verbessert-RR_%2853106651455%29.jpg/250px-2023_07_31_arne_mueseler_00060-Verbessert-RR_%2853106651455%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Michael Carrick",
+        preview:"United has the optimism of last season but with lack of signing and UCL football might hurt them deeper in the season thus with a easier start, a good start is paramount.",
+        expectations:"Deep UCL run and top 4",
+        predictions:"4th",
+        MVP:"Bruno Fernandes"
+    },
+    {
+        id:17,
+        club:"Newcastle United",
+        Hg:"St. James Park",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Newcastle_st-james-park_stadium.jpg/250px-Newcastle_st-james-park_stadium.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Matthias Jaissle",
+        preview:"Newcastle had a shocker of a window with losing Gordon, Bruno G and Tonali with potential of Hall leaving and signing rejecting them left right and centre. With a new manager they looks like going to get a rude awakening.",
+        expectations:"European spot",
+        predictions:"14th",
+        MVP:"Harvey Barnes"
+    },
+    {
+        id:18,
+        club:"Nottingham Forest",
+        Hg:"City Ground",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Kimberley_and_the_City_Ground%2C_1978.jpg/250px-Kimberley_and_the_City_Ground%2C_1978.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Oliver Glassner",
+        preview:"They have signed a very good manager and with no europe and some smart signing they should aim for a top half finsih, only thing to see how they replace Elliot Anderson",
+        expectations:"Top half",
+        predictions:"10th",
+        MVP:"Morgan Gibbs-WHite"
+    },
+    {
+        id:19,
+        club:"Sunerland",
+        Hg:"Stadium of Light",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Sunderland_stadium_of_light.jpg/250px-Sunderland_stadium_of_light.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Regis Le Bris",
+        preview:"Sunderland are in Europe after just one season in prem, with lack of signing they might have to face a relegation battle. Xhaka not leaving is great news for them",
+        expectations:"deep europa run and survival",
+        predictions:"17th",
+        MVP:"Granit Xhaka"
+    },
+    {
+        id:20,
+        club:"Tottenham Hotspur",
+        Hg:"Tottenham Hotspur Stadium",
+        link:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/London_Tottenham_Hotspur_Stadium.jpg/250px-London_Tottenham_Hotspur_Stadium.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        manager:"Roberto De Zerbi",
+        preview:"After twice finsihing 17th, management realised club can spend money and they have got some great players with no europe and time to work they should atleast finish in top half.",
+        expectations:"UCL spot",
+        predictions:"6th",
+        MVP:"Roberto De Zerbi"
+    }
+]
+export default pl;
