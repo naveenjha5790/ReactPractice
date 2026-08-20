@@ -1,0 +1,132 @@
+*{
+  font-family:sans-serif;
+  margin:0;
+}
+header{
+  height:100px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  background-color: cornflowerblue;
+  color:white;
+}
+
+header > img{
+  height:80%;
+  width:100px;
+  padding:20px;
+  margin:6px;
+}
+.h11{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin:18px;
+}
+.cricket {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:30px;
+  list-style-type:none;
+  
+}
+.crct{
+  box-sizing: border-box;
+  border:1px solid green;
+}
+.btn{
+  padding: 12px 24px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    width:340px;
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-left:40%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top:40px;
+ 
+  
+}
+.btnBack{
+cursor:pointer;
+background-color:cornsilk;
+color:black;
+font-size:1rem;
+margin:10px;
+margin-left:0;
+
+}
+.adds{
+  display:grid;
+  grid-template-columns: repeat(2,1fr);
+  gap:30px;
+  color:white;
+}
+.adds > input{
+  padding: 12px 24px;
+    font-size: 1.5rem;
+    font-weight: 300;
+    width:340px;
+    color:#3182ce;
+    border: none;
+    border-radius: 6px;
+    margin-left:40%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top:40px;
+}
+.sub{
+  margin-left:40%;
+  background-color:cadetblue;
+  color:white;
+  border-radius:8px;
+  font-size: 1.25rem;
+  height:80px;
+  cursor:pointer;
+}
+.search {
+  margin:10px;
+  font:1.25rem;
+  height:45px;
+  border-radius: 8px;
+}
+.btn1{
+  margin:15px;
+    font-size: 1.5rem;
+    font-weight: 300;
+    width:340px;
+    background-color:#3182ce;
+    color:white;
+    border: none;
+    height:45px;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   
+}
+.opts{
+  margin:5px;
+  width:200px;
+   border-radius: 8px;
+  height:35px;
+}
+.btn2{
+  width:300px;
+  height:45px;
+  font-size: 1.5rem;
+}
+.numeric{
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+}
+.numeric1{
+  margin:6px;
+  font-size:16px;
+}
+.numeric1 > input {
+  border-radius: 8px;
+  font-size:18px;
+  width:120px;
+  margin-left:3px;
+}
