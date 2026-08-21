@@ -85,6 +85,8 @@ margin-left:0;
   font-size: 1.25rem;
   height:80px;
   cursor:pointer;
+  margin-top:20px;
+  width:300px;
 }
 .search {
   margin:10px;
@@ -129,4 +131,47 @@ margin-left:0;
   font-size:18px;
   width:120px;
   margin-left:3px;
+}
+.patch1{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);;
+}
+.lb2{
+  margin:15px;
+    font-size: 1.5rem;
+    font-weight: 300;
+    width:340px;
+    background-color:white;
+    color:#3182ce;
+    border: none;
+    height:45px;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.lb1{
+color:#3182ce;
+margin:10px;
+}
+.sub1{
+  background-color:cadetblue;
+  color:white;
+  border-radius:8px;
+  font-size: 1.25rem;
+  height:80px;
+  cursor:pointer;
+  margin-top:20px;
+  margin-left:40px;
+  width:300px;
+
+}
+.h3{
+  margin-left:45%;
+  margin-right: 34%;
+  padding:12px;
+  font-size: 32px;
+  background-color:white;
+  color:darkcyan;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border:2px;
 }

@@ -59,7 +59,7 @@ export default function Post({setCricketer}){
     }
 return (
 <div className="add">
-            <h3>Add new Cricketer</h3>
+            <h3 className="h3">Add new Cricketer</h3>
             <form onSubmit={handleNewCricketer} className="adds">
                 <input type="text" name="name" placeholder="Full Name" value={newCricketer.name} onChange={postHandler} />
                 <input type="text" name="country" placeholder="Country" value={newCricketer.country} onChange={postHandler} />

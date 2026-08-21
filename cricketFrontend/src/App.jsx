@@ -1,44 +1,34 @@
 import { useState } from 'react'
 import Header from '../Comps/Header';
-import Body from './Body';
 import Bodies from '../Comps/Bodies';
 function App() {
   const [count, setCount] = useState(0)
   const [curView,setCurView]=useState("menu");
-
+  const [cricketer, setCricketer] = useState([]);
   return (
     <>
      <Header />
     <main className='container'>
-      {curView==="menu" && (
-        <div className='frontMenu'>
-          
-          <div className='frontMenu1'>
-            <button className='btn'
-            onClick={()=> setCurView("show")}>
-              Show cricketers
-            </button>
-            <button className='btn'
-            onClick={()=>setCurView("add")}>
-              Add Cricketers
-            </button>
-          </div>
-        </div>)}
-        {curView==="add" && (
-          <div>
-            <button className='btnBack'
-            onClick={()=> setCurView("menu")}
-            >⬅️ Back to Main Menu</button>
-            <Bodies initialFormOpen={false} />
+      {curView === "menu" && (
+          <div className='frontMenu'>
+            <div className='frontMenu1'>
+              <button className='btn' onClick={() => setCurView("show")}>Show cricketers</button>
+              <button className='btn' onClick={() => setCurView("add")}>Add Cricketers</button>
+              <button className='btn' onClick={() => setCurView("update")}>Update Stats of cricketers</button>
+            </div>
           </div>
         )}
-        {curView==="show" && (
+
+        {curView !== "menu" && (
           <div>
-            <button className='btnBack'
-            onClick={()=> setCurView("menu")}
-            >⬅️ Back to Main Menu</button>
-            <Bodies initialFormOpen={false} 
-            hideGrid={true} />
+            <button className='btnBack' onClick={() => setCurView("menu")}>⬅️ Back to Main Menu</button>
+            
+            {/* 🔑 FIX: Pass cricketer and setCricketer down into Bodies */}
+            <Bodies 
+              view={curView} 
+              cricketer={cricketer} 
+              setCricketer={setCricketer} 
+            />
           </div>
         )}
         </main>
