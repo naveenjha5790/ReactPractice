@@ -174,14 +174,14 @@ h4{
      background-color:antiquewhite;
      padding:10px;
 }
-.resourceManager4{
+.resourceManager4,.update{
     display:inline-block;
     text-align: center;
     width: fit-content;
     margin-top: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
      transition: transform 0.2s, box-shadow 0.2s;
-     color:blue;
+     color:blueviolet;
      background-color:antiquewhite;
      padding:10px;
 }
@@ -202,6 +202,8 @@ h4{
 }
 .getRes{
     margin:10px;
+    color:darkcyan;
+    background-color: aliceblue;
 }
 .getRes1{
     display: flex;
@@ -219,9 +221,73 @@ h4{
 }
 .rest{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    margin:5px;
+    margin-left:15px;
 }
 .rest1{
     padding:10px;
     font-size: 16px;
+    margin:20px;
+}
+.cs{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+.update{
+    display:inline-block;
+    text-align: center;
+    width: fit-content;
+    margin-top: 10px;
+    
+     padding:10px;
+}
+.update label{
+    margin:5px;
+}
+.update1{
+color:blue;
+}
+.update2{
+    color:blue;
+   display: flex;
+   flex-direction: column;
+}
+.lb3,.lb4{
+    margin:15px;
+    margin-bottom: 5px;;
+}
+.sub1,.sub2{
+    color:darkcyan;
+    margin:5px;
+    padding:15px;
+    font-size: 20px;
+}
+.update1 option{
+    color:black;
+}
+.update1 select{
+    color:black;
+}
+.lb31{
+     margin:25px;
+}
+
+.view2{
+    text-align: left;
+}
+.ss1{
+    display:grid;
+    grid-template-columns: repeat(6,1fr);
+}
+.ss1 p{
+    box-sizing: border-box;
+    color:brown;
+     background-color:antiquewhite;
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
+     transition: transform 0.2s, box-shadow 0.2s;
+     margin: 10px;
+}
+.ss3{
+    margin: 10px;
 }

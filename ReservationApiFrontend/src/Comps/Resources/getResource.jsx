@@ -13,8 +13,7 @@ export default function GetResource({currentUser,resource,setResource}){
     });
     const [submitting,setSubmitting]=React.useState(false);
     async function fetchAllResource(){
-        
-        setLoading(true);
+         setLoading(true);
         try{
             const token=localStorage.getItem("token");
             const response=await fetch("http://localhost:5000/resources",{
@@ -65,51 +64,10 @@ export default function GetResource({currentUser,resource,setResource}){
             
             }
         }
-        function handleChange(e) {
-        const { name, value } = e.target;
-        setNewResource((prev) => ({
-            ...prev,
-            [name]: name === "capacity" || name === "pricePerUnit" ? Number(value) : value
-        }));
-    }
-        async function inputHandler(reso){
-            reso.preventDefault();
-            setSubmitting(true);
-            try{
-                const token=localStorage.getItem("token");
-                const response=await fetch("http://localhost:5000/resources",{
-                    method:"POST",
-                    headers:{
-                        "content-Type":"application/json",
-                        "Authorization":`Bearer ${token}`
-                    },
-                    body:JSON.stringify(newResource)
-                });
-                const data=await response.json();
-
-                if (!response.ok) throw new Error("Failed to create a new resource");
-            
-            alert("Resource created successfully");
-            setNewResource({name:"",resourceType:"room",
-                location:"",
-                capacity:1,
-                pricePerUnit:0,
-                pricingType:"Hourly",
-
-            });
-            fetchAllResource();
-        }catch(err){
-            console.log(err);
-            alert(err.message);
-        }finally{
-            setSubmitting(false);
-        }
-    }
     React.useEffect(()=>{
         fetchAllResource();
     },[currentUser]
     )
-    console.log("CRITICAL AUTH CHECK - currentUser details:", currentUser);
     const isAdmin=currentUser?.role?.toLowerCase()==="admin";
 
 return(

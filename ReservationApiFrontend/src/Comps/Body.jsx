@@ -6,6 +6,7 @@ import GetReservation from "./Reservation/GetReservation";
 import Create from "./Reservation/createReservation";
 import GetResource from "./Resources/getResource";
 import CreateResource from "./Resources/CreateResources";
+import UpdateDeleteResources from "./Resources/UpdateDeleteResources";
 
 export default function Body(){
 const [user,setUser]=React.useState(null);   
@@ -78,14 +79,16 @@ return (
                     <GetResource currentUser={user} resource={resource} setResource={setResource} />
                     
                   {user?.role?.toLowerCase()=== "admin" && (
+                    <div className="cs">
                         <CreateResource currentUser={user} resource={resource} setResource={setResource} />
-                    
+                        <UpdateDeleteResources currentUser={user} resource={resource} setResource={setResource} />
+                    </div>
                 )}
                 </div>
 
                 )}
                 {currentView === 'reservations' && (
-                    <div className="reservations-view-wrapper">
+                    <div className="view">
                         {user && (
                             <Create onReservationSuccess={refreshReservation} reservation={resource} />
                         )}

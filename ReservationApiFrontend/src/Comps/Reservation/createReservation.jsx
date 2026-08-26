@@ -48,7 +48,7 @@ export default function Create({onReservationSuccess,reservation}){
             }
             alert ("Reservation successfully created");
         
-        setNewreservation({resourceId:"",startTime:"",endTime:""});
+        setNewReservation({userId:"",resourceId:"",startTime:"",endTime:""});
 
         if (onReservationSuccess){
             onReservationSuccess();
@@ -56,7 +56,7 @@ export default function Create({onReservationSuccess,reservation}){
     }
     catch(err){
         console.log(err);
-        alert ("Something went wrong",error)
+        alert ("Something went wrong")
     }finally {
         setIsLoading(false);
     }
@@ -65,13 +65,12 @@ export default function Create({onReservationSuccess,reservation}){
     const minDateTime=new Date().toISOString().slice(0,16);
     return (
         <>
-        <h4>Book a reservation slot</h4>
         <div className="st1">
         <div className="book">
             
             <form onSubmit={handleNewReservation}>
             <div className="book1">
-                <label htmlFor="resourceId">Choose a Resource</label>
+                <label htmlFor="resourceId">Book a reservation slot</label>
                 <select 
                 id="resourceId"
                 name="resourceId"
@@ -121,7 +120,7 @@ export default function Create({onReservationSuccess,reservation}){
                     />
                 </label>
                   </div>
-                <button type="submit" class="btn"
+                <button type="submit" className="btn"
                 disabled={submitting || isLoading}>
                     {submitting ? "Processing Booking ...":"Confirm Reservation"}
                 </button>

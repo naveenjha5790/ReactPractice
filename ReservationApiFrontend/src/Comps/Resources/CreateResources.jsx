@@ -61,7 +61,7 @@ export default function CreateResource({currentUser,resource,setResource}){
                     <h4>Add new Resource</h4>
                     <form onSubmit={inputHandler}>
                         <div>
-                            <label>Resource Name: </label>
+                            <label className="lb31">Resource Name: </label>
                             <input type="text" name="name"
                             value={newResource.name}
                             onChange={handleChange} 
@@ -69,8 +69,8 @@ export default function CreateResource({currentUser,resource,setResource}){
 
                         </div>
                         <div>
-                            <label>Resource Type:</label>
-                            <select name="resourceType"
+                            <label className="lb31">Resource Type:</label>
+                            <select name="resourceType" className="lb4"
                             value={newResource.resourceType}
                             onChange={handleChange} 
                             required>
@@ -81,25 +81,26 @@ export default function CreateResource({currentUser,resource,setResource}){
                             </select>
                         </div>
                         <div>
-                            <label>Capacity:(People/Units)</label>
-                            <input type="number" name="capacity"
+                            <label className="lb31">Capacity:(People/Units)</label>
+                            <input type="number" name="capacity" className="lb4"
                             value={newResource.capacity} onChange={handleChange} 
                             />
                         </div>
                         <div>
-                            <label>Location</label>
-                            <input type="text" name="location"
+                            <label className="lb31">Location</label>
+                            <input type="text" name="location" className="lb4"
                             value={newResource.location} onChange={handleChange} 
                             />
 
                         </div>
                         <div>
-                            <label>Price Per Unit (₹):</label>
-              <input type="number" name="pricePerUnit" min="0" value={newResource.pricePerUnit} onChange={handleChange} />
+                            <label className="lb31">Price Per Unit (₹):</label>
+              <input type="number" name="pricePerUnit" min="0" value={newResource.pricePerUnit} onChange={handleChange}
+              className="lb4" />
                         </div>
                         <div>
-                            <label>Pricing Type Strategy:</label>
-              <select name="pricingType" value={newResource.pricingType} onChange={handleChange}  >
+                            <label className="lb31">Pricing Type Strategy:</label>
+              <select name="pricingType" value={newResource.pricingType} onChange={handleChange} className="lb4" >
                 <option value="Hourly">Hourly</option>
                 <option value="Daily">Daily</option>
                 <option value="Fixed">Fixed</option>
