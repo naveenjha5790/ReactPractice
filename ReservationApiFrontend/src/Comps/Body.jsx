@@ -1,4 +1,5 @@
 import React from "react";
+import { Routes, Route, Navigate, Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Signup from "./Auth/Signup";
 import Login from "./Auth/Login";
@@ -14,97 +15,100 @@ const [resource,setResource]=React.useState([]);
 const [reservation, setReservation] = React.useState([]);
 const [showSignup,setShowSignup]=React.useState(false);
 const [currentView, setCurrentView] = React.useState(null); 
+const navigate=useNavigate();
 const getResRef=React.useRef(null);
 const handleLogout=()=>{
     setUser(null);
     localStorage.removeItem("token");
-    setCurrentView(null);
+    navigate("/login");
 }
 const refreshReservation=()=>{
     if (getResRef.current){
         getResRef.current.getRes();
     }
 }
+const isAdmin = user?.role?.toLowerCase() === "admin";
+
 return (
     <>
         <Header />
         <div>
-            {user ? (
+            {user && (
                 <div className="dashboard">
                     <div>
                         <h3 className="logs">Welcome, <span> {user.name} </span></h3>
                         <button onClick={handleLogout} className="logout">Logout:</button>
                     </div>
-                </div>
-            ) : (
-                <div>
-                    {showSignup ? (
-                        <Signup setUser={setUser} />
-                    ) : (
-                        <Login setUser={setUser} />
-                    )}
-                    <div>
-                        <button 
-                            onClick={() => setShowSignup(!showSignup)} 
-                            style={{
-                                padding: "15px", fontSize: "1.5rem", display: "block",
-                                alignItems: "center", justifyContent: "center", margin: "20px auto", 
-                                backgroundColor: "white", color: "black", cursor: "pointer"
-                            }}
-                        >
-                            {showSignup ? "Already have an account? Log In" : "Don't have an account? Sign Up"}
-                        </button>
-                    </div>
-                </div>
-            )}
-            <div>
-                
+                    <div className="dashboard1">
+              <Link to="/resources"><button>Manage Resources</button></Link>
+              <Link to="/reservations"><button>Manage Reservations</button></Link>
             </div>
-            {user && (<div className="dashboard1">
-                 
-                <button onClick={() => setCurrentView(currentView === 'resources' ? null : 'resources')}>
-                    {currentView === 'resources' ? "Close Resources" : "Manage Resources"}
-                </button>
-                 
-                <button onClick={() => setCurrentView(currentView === 'reservations' ? null : 'reservations')}>
-                    {currentView === 'reservations' ? "Close Reservations" : "Manage Reservations"}
-                </button>
-            </div>
-
-                )}  
-            <div className="view-display-panel">
-                
-                {currentView === 'resources' && user && (
-                    <div>
-                    <GetResource currentUser={user} resource={resource} setResource={setResource} />
-                    
-                  {user?.role?.toLowerCase()=== "admin" && (
-                    <div className="cs">
-                        <CreateResource currentUser={user} resource={resource} setResource={setResource} />
-                        <UpdateDeleteResources currentUser={user} resource={resource} setResource={setResource} />
-                    </div>
-                )}
                 </div>
-
-                )}
-                {currentView === 'reservations' && (
-                    <div className="view">
-                        {user && (
-                            <Create onReservationSuccess={refreshReservation} reservation={resource} />
-                        )}
-                        <GetReservation currentUser={user} ref={getResRef} reservation={reservation} setReservation={setReservation} />
-                    </div>
-                )}
-                
-
-                
-                {user && !currentView && (
-                    <div className="res13">
-                        <p>Please select an action tab above to manage resources or plan slots.</p>
-                    </div>
-                )}
-            </div>
+            )} 
             
+            <div className="view-display-panel">
+                <Routes>
+                    <Route path="/login"
+                    element={!user ? (
+                        <div>
+                            {showSignup ? <Signup setUser={setUser} /> : <Login setUser={setUser} />}
+                            <button onClick={() => setShowSignup(!showSignup)} style={{ padding: "15px", fontSize: "1.5rem", display: "block", margin: "20px auto", backgroundColor: "white", color: "black", cursor: "pointer" }}>
+                    {showSignup ? "Already have an account? Log In" : "Don't have an account? Sign Up"}
+                  </button>
+                        </div>
+                    ):(
+                        <Navigate to ={isAdmin ? "/admin/dashboard" :"/user/dashboard"} replace />
+                       )}
+                       />
+                       <Route 
+                       path="/"
+                       element={user ? <Navigate to={isAdmin ? "/admin/dashboard":"/user/dashboard"} replace />: <Navigate to="/login" replace />}
+                       />
+                       <Route 
+                       path="/admin/dashboard"
+                       element={user && isAdmin ? (
+                        <div className="res13">
+                            <h2>Admin Control Center</h2>
+                        </div>
+                       ):<Navigate to="/login" replace />}
+                    />
+                  <Route 
+              path="/user/dashboard" 
+              element={user && !isAdmin ? (
+                <div className="res13">
+                  <h2>User Dashboard</h2>
+                </div>
+              ) : <Navigate to="/login" replace />} 
+            />  
+            <Route 
+              path="/resources" 
+              element={user ? (
+                <div>
+                  <GetResource currentUser={user} resource={resource} setResource={setResource} />
+
+                  {isAdmin && (
+                    <div className="cs">
+                      <CreateResource currentUser={user} resource={resource} setResource={setResource} />
+                      <UpdateDeleteResources currentUser={user} resource={resource} setResource={setResource} />
+                    </div>
+                  )}
+                </div>
+              ) : <Navigate to="/login" replace />} 
+            />
+            <Route 
+              path="/reservations" 
+              element={user ? (
+                <div className="view">
+                  <Create onReservationSuccess={refreshReservation} reservation={resource} />
+                  <GetReservation currentUser={user} ref={getResRef} reservation={reservation} setReservation={setReservation} />
+                </div>
+              ) : <Navigate to="/login" replace />} 
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+            </div>
+                
+               
         </div>
     </>
 );
