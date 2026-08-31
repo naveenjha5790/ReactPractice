@@ -3,6 +3,7 @@ import React from "react";
 const GetReservation=React.forwardRef(({currentUser, reservation,setReservation},ref)=>{
     const [isDeleting,setIsDeleting]=React.useState(false);
     const [loading,setLoading]=React.useState(false);
+    const [isApproving, setIsApproving] = React.useState(false);
     const [details,setDetails]=React.useState(false);
     const [newReservation,setNewReservation]=React.useState({
             resourceId:"",
@@ -11,7 +12,7 @@ const GetReservation=React.forwardRef(({currentUser, reservation,setReservation}
             status:""
         });
         const [isLoading,setIsLoading]=React.useState(false);
-        
+        const isAdmin = currentUser?.role?.toLowerCase() === "admin";
     /*function inputHandler(use){
         const {name,value}=use.target;
         setReservation(prevs=>({
@@ -24,7 +25,8 @@ const GetReservation=React.forwardRef(({currentUser, reservation,setReservation}
         try{
             const token=localStorage.getItem("token");
             if (!token){
-                alert("No authentication token for the user")
+                alert("No authentication token for the user");
+                return;
             }
 
             const response=await fetch("http://localhost:5000/reservations",{
@@ -43,6 +45,35 @@ const GetReservation=React.forwardRef(({currentUser, reservation,setReservation}
             alert (err);
         }finally {
             setLoading(false);
+        }
+    }
+    async function handleApproveRequest(reservationId) {
+        if (!window.confirm("Do you want to confirm and book this slot on behalf of the user?")) {
+            return;
+        }
+        setIsApproving(true);
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(`http://localhost:5000/reservations/${reservationId}/approve`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.message || "Failed to update reservation status");
+            }
+            
+            alert("Reservation approved and completed successfully!");
+            getRes(); // Reload the layout grid to pull live database changes
+        } catch (err) {
+            console.error(err);
+            alert(err.message || "Something went wrong during approval");
+        } finally {
+            setIsApproving(false);
         }
     }
     React.useImperativeHandle(ref, () => ({
@@ -86,6 +117,9 @@ const GetReservation=React.forwardRef(({currentUser, reservation,setReservation}
     
     return (
         <div>
+          {loading && <p style={{ textAlign: "center" }}>Loading reservations...</p>}  
+        
+        <div>
         {reservation && reservation.length >0 && (
         <>
         <div className="resourceManager4">
@@ -122,7 +156,28 @@ const GetReservation=React.forwardRef(({currentUser, reservation,setReservation}
                 <p>
                     <strong>End Time:</strong> {item.endTime ? new Date(item.endTime).toLocaleString() : "N/A"}
                 </p>
+                
+                    {item.notes && (
+                        <p>
+                            <strong>User Note:</strong> {item.notes}
+                                        </p>
+                            
+                    )}
+                
                 </div>
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                                   
+                                    {isAdmin && item.status === "Admin Request Pending" && (
+                                        <button 
+                                            type="button"
+                                            onClick={() => handleApproveRequest(item._id)}
+                                            disabled={isApproving}
+                                            style={{ backgroundColor: "#16a34a", color: "white", cursor: "pointer", fontSize: "14px", padding: "10px", margin: "5px" }}
+                                        >
+                                            {isApproving ? "Approving..." : "Approve & Book Slot"}
+                                        </button>
+                                    )}
+                                    </div>
         <button 
             type="button"
             onClick={() => handleDeleteReservation(item._id)}
@@ -139,6 +194,7 @@ const GetReservation=React.forwardRef(({currentUser, reservation,setReservation}
 
     
        </> )}
+        </div>
         </div>
     )
 });

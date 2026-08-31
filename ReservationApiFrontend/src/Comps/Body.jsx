@@ -36,7 +36,7 @@ return (
             {user && (
                 <div className="dashboard">
                     <div>
-                        <h3 className="logs">Welcome, <span> {user.name} </span></h3>
+                        <h3 className="logs">Welcome <span>{user.role}, {user.name} </span></h3>
                         <button onClick={handleLogout} className="logout">Logout:</button>
                     </div>
                     <div className="dashboard1">
@@ -99,7 +99,8 @@ return (
               path="/reservations" 
               element={user ? (
                 <div className="view">
-                  <Create onReservationSuccess={refreshReservation} reservation={resource} />
+                  <Create onReservationSuccess={refreshReservation} reservation={resource} 
+                  currentUser={user}/>
                   <GetReservation currentUser={user} ref={getResRef} reservation={reservation} setReservation={setReservation} />
                 </div>
               ) : <Navigate to="/login" replace />} 
