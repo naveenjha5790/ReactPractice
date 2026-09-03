@@ -1,8 +1,10 @@
 
 import React from "react";
+import { Form, Button,Alert} from "react-bootstrap";
 export default function UpdateDeleteResources({currentUser,resource,setResource}){
     const [selectId,setSelectId]=React.useState("");
     const [isLoading,setIsLoading]=React.useState(false);
+    const [alertMessage,setAlertMessage]=React.useState({type:"",text:""})
     const [isDeleting,setIsDeleting]=React.useState(false);
     const [updateRes,setUpdateRes]=React.useState({
         name:resource?.name ||"",
@@ -32,7 +34,7 @@ export default function UpdateDeleteResources({currentUser,resource,setResource}
         }
         catch(err){
             console.log(err);
-            alert("Something went wrong in loading resources")
+            setAlertMessage({type:"danger",text:"Something went wrong in loading resources"})
         }finally{
             setIsLoading(false);
         }
@@ -68,7 +70,7 @@ export default function UpdateDeleteResources({currentUser,resource,setResource}
     async function handleUpdation(res){
         res.preventDefault();
         if (!selectId){
-            alert("Please select a resource to update");
+            setAlertMessage({type:"warning",text:"Please select a resource to update"});
         }
         setIsSubmit(true)
         try{
@@ -88,12 +90,13 @@ export default function UpdateDeleteResources({currentUser,resource,setResource}
                 setResource(prevs=>
                     Array.isArray(prevs)?prevs.map(item=> (item._id=== selectId ? {...item,...updateRes}:item)):[]
                 )
-                alert (`Data of ${updateRes.name} has been updated`)
+               setAlertMessage({type:"success",text:`Data of ${updateRes.name} has been updated`})
 
            
         }
         catch(err){
             console.log(err)
+            setAlertMessage({type:"danger",text:err.message})
         }finally{
             setIsSubmit(false)
         }
@@ -115,22 +118,24 @@ export default function UpdateDeleteResources({currentUser,resource,setResource}
                 if (!response.ok){
                     const ed=await response.json();
                     throw new Error(ed.msg || "Failed to Delete Resources")
-                }setResource(prevs=>prevs.filter(item=>item._id !=selectId ))
-                alert (`${updateRes.name} Resource has been removed`);
+                }
+                setResource(prevs=>prevs.filter(item=>item._id !=selectId ))
+                setAlertMessage ({type:"success",text:`${updateRes.name} Resource has been removed`});
                 setSelectId("");
             }catch (err){
                 console.log(err)
+                setAlertMessage({type:"danger",text:err.message})
             }finally {
                 setIsDeleting(false);
             }
     }
     return (
         <>
-        <div className="update">
-            <h3>Update Resource</h3>
+       <div className="bg-success text-white p-3 mt-4 rounded">
+            <h3 style={{color:"floralwhite"}}>Update Resource</h3>
             <div className="update1">
-                <label>Choose a Resource to Update</label>
-            <select className="update1" value={selectId}
+                <Form.Label className="text-white">Choose a Resource to Update</Form.Label>
+            <Form.Select className="update1" value={selectId}
             onChange={handleResourceSelect}>
                 <option value="">--Click a Resource to Update</option>
                 {resource && resource.map(res=>(
@@ -138,57 +143,60 @@ export default function UpdateDeleteResources({currentUser,resource,setResource}
                         {res.name}
                     </option>
                 ))}
-            </select>
+            </Form.Select>
             </div>
             {selectId && 
-            <form onSubmit={handleUpdation}
-        className="update2">
-            <label className="lb3">Resource Name 
-                <input type="text" className="lb4"
+            <Form>
+                <Form.Group>
+            <Form.Label className="text-light">Resource Name </Form.Label>
+                <Form.Control type="text" className="lb4"
                 name="name" value={updateRes.name}
-                onChange={handleInput}
-                />
-            </label>
-            <label className="lb3">Location
-                <input type="text" className="lb4"
+                onChange={handleInput}>
+                </Form.Control>
+            
+            <Form.Label className="lb3">Location</Form.Label>
+                <Form.Control type="text" className="lb4"
                 name="location" value={updateRes.location}
-                onChange={handleInput}
-                />
-            </label>
-            <label className="lb3">Capacity 
-                <input type="number" className="lb4"
+                onChange={handleInput}></Form.Control>
+            
+            <Form.Label className="lb3">Capacity </Form.Label>
+                <Form.Control type="number" className="lb4"
                 name="capacity" value={updateRes.capacity}
-                onChange={handleInput}
-                />
-            </label>
-            <label className="lb3">Resource Type
-                <input type="text" className="lb4"
+                onChange={handleInput}>
+                </Form.Control>
+            
+            <Form.Label className="lb3">Resource Type</Form.Label>
+            <Form.Control type="text" className="lb4"
                 name="resourceType" value={updateRes.resourceType}
-                onChange={handleInput}
-                />
-            </label>
-            <label className="lb3">Price per Unit
-                <input type="number" className="lb4"
+                onChange={handleInput}></Form.Control>
+            
+            <Form.Label className="lb3">Price per Unit</Form.Label>
+                <Form.Control type="number" className="lb4"
                 name="pricePerUnit" value={updateRes.pricePerUnit}
-                onChange={handleInput}
-                />
-            </label>
-            <label className="lb3">Pricing Type
-                <input type="text" className="lb4"
+                onChange={handleInput}></Form.Control>
+            
+            <Form.Label className="lb3">Pricing Type</Form.Label>
+                <Form.Control  type="text" className="lb4"
                 name="pricingType" value={updateRes.pricingType}
-                onChange={handleInput}
-                />
-            </label>
-                <button type="submit" className="sub1">
+                onChange={handleInput}></Form.Control>
+            
+                <Button type="submit" variant="warning mt-2"
+                onClick={handleUpdation}>
                     {isSubmit ? "Update Resource ":"Updating Resource "}
-                </button>
-                <button
+                </Button>
+                <Button
                 type="button"
-                className="sub2"
+                variant="warning"
                 onClick={handleDeleteResources}
                 disabled={isSubmit || isDeleting}
-                >{isDeleting ? "Deleting...":"Delete Resource"}</button>
-            </form>}
+                >{isDeleting ? "Deleting...":"Delete Resource"}</Button>
+            </Form.Group>
+            </Form>}
+            {alertMessage.text && (
+                        <Alert variant={alertMessage.type} onClose={() => setAlertMessage({ type: "", text: "" })} dismissible>
+                            {alertMessage.text}
+                        </Alert>
+                    )}
         </div>
         </>
     )

@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, Form ,Alert} from "react-bootstrap";
 export default function Signup({setUser}){
 const [newUser, setNewUser]=React.useState({
     email:"",
@@ -7,6 +8,7 @@ const [newUser, setNewUser]=React.useState({
     role:""
 });
 const [isSignup,setIsSignup]=React.useState(false);
+const [alertMessage,setAlertMessage]=React.useState({type:"",text:""});
 function postHandler(use){
     const {name,value}=use.target;
     setNewUser(prev=>({
@@ -18,7 +20,7 @@ async function handleNewUser(use){
     use.preventDefault();
 
     if (!newUser.name || !newUser.email ||!newUser.password){
-        alert("Not possible to signup without name, email and password");
+        setAlertMessage({type:"danger",text:"Not possible to signup without name, email and password"});
         return;
     }
     setIsSignup(true);
@@ -44,30 +46,42 @@ async function handleNewUser(use){
         setNewUser({
             name:"",email:"",password:"",role:""
         })
-        alert("You have successfully signedUp")
+        setAlertMessage({type:"success",text:"You have successfully signedUp"})
     }catch(err){
-        console.log("Request failed Please try again!")
+        setAlertMessage({type:"danger",text:"Request failed please try again!"})
     }finally{
         setIsSignup(false)
     }
 }
     return (
         <>
-        <div className="signup">
-            <form onSubmit={handleNewUser} className="signup1">
-                <input type="text" name="name" placeholder="full name"
-                value={newUser.name} onChange={postHandler} />
-                <input type="email" name="email" placeholder="Email ID"
-                value={newUser.email} onChange={postHandler} required />
-                <input type="password" name="password" placeholder="Provide password"
-                value={newUser.password} onChange={postHandler} required />
-                <input type="text" name="role" placeholder="Role"
-                value={newUser.role} onChange={postHandler} />
-                <button type="submit" className="signup2">
+        <div className="text-center m-3">
+            <Form onSubmit={handleNewUser}>
+                <Form.Group className="mb-3 p-3">
+                    <Form.Control  type="text" name="name" placeholder="full name"
+                value={newUser.name} onChange={postHandler} className="mb-3 p-3">
+                </Form.Control>
+                <Form.Control  type="email" name="email" placeholder="Email ID"
+                value={newUser.email} onChange={postHandler} required className="mb-3 p-3">
+                </Form.Control>
+                <Form.Control type="password" name="password" placeholder="Provide password"
+                value={newUser.password} onChange={postHandler} required className="mb-3 p-3">
+                </Form.Control>
+                
+                <Form.Control type="text" name="role" placeholder="Role"
+                value={newUser.role} onChange={postHandler} className="mb-3 p-3"
+                >
+                </Form.Control>
+                <Button variant="danger" type="submit" >
                     {isSignup ? "Registering ...":"Sign Up"}
-                </button>
-            </form>
-            
+                </Button>
+                </Form.Group>
+            </Form>
+            {alertMessage.text && (
+                <Alert variant={alertMessage.type} onClose={() => setAlertMessage({ type: "", text: "" })} dismissible>
+                    {alertMessage.text}
+                </Alert>
+            )}
         </div>
         </>
     )

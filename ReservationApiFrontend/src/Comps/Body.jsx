@@ -3,11 +3,13 @@ import { Routes, Route, Navigate, Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Signup from "./Auth/Signup";
 import Login from "./Auth/Login";
+import ProfileView from "./Auth/profile";
 import GetReservation from "./Reservation/GetReservation";
 import Create from "./Reservation/createReservation";
 import GetResource from "./Resources/getResource";
 import CreateResource from "./Resources/CreateResources";
 import UpdateDeleteResources from "./Resources/UpdateDeleteResources";
+import { Button, Container, Row, Col } from "react-bootstrap";
 
 export default function Body(){
 const [user,setUser]=React.useState(null);   
@@ -37,11 +39,12 @@ return (
                 <div className="dashboard">
                     <div>
                         <h3 className="logs">Welcome <span>{user.role}, {user.name} </span></h3>
-                        <button onClick={handleLogout} className="logout">Logout:</button>
+                        <Button variant="primary" onClick={handleLogout} size="lg" active>Logout:</Button>
                     </div>
                     <div className="dashboard1">
-              <Link to="/resources"><button>Manage Resources</button></Link>
-              <Link to="/reservations"><button>Manage Reservations</button></Link>
+              <Link to="/resources"><Button variant="primary" size="lg">Manage Resources</Button></Link>
+              <Link to="/reservations"><Button variant="warning">Manage Reservations</Button></Link>
+              <Link to="/profile"><Button variant="primary">View Profile</Button></Link>
             </div>
                 </div>
             )} 
@@ -50,11 +53,11 @@ return (
                 <Routes>
                     <Route path="/login"
                     element={!user ? (
-                        <div>
+                        <div className="text-center m-3">
                             {showSignup ? <Signup setUser={setUser} /> : <Login setUser={setUser} />}
-                            <button onClick={() => setShowSignup(!showSignup)} style={{ padding: "15px", fontSize: "1.5rem", display: "block", margin: "20px auto", backgroundColor: "white", color: "black", cursor: "pointer" }}>
+                            <Button variant="primary" onClick={() => setShowSignup(!showSignup)} className="p-3 align-items-center justify-content-center">
                     {showSignup ? "Already have an account? Log In" : "Don't have an account? Sign Up"}
-                  </button>
+                  </Button>
                         </div>
                     ):(
                         <Navigate to ={isAdmin ? "/admin/dashboard" :"/user/dashboard"} replace />
@@ -87,10 +90,15 @@ return (
                   <GetResource currentUser={user} resource={resource} setResource={setResource} />
 
                   {isAdmin && (
-                    <div className="cs">
-                      <CreateResource currentUser={user} resource={resource} setResource={setResource} />
-                      <UpdateDeleteResources currentUser={user} resource={resource} setResource={setResource} />
-                    </div>
+                    
+                      <Container>
+                        <Row>
+                          <Col xs={12} md={5} >
+                      <CreateResource currentUser={user} resource={resource} setResource={setResource} /></Col>
+                      <Col xs={12} md={5}><UpdateDeleteResources currentUser={user} resource={resource} setResource={setResource} /></Col>
+                      </Row>
+                      </Container>
+                    
                   )}
                 </div>
               ) : <Navigate to="/login" replace />} 
@@ -105,6 +113,11 @@ return (
                 </div>
               ) : <Navigate to="/login" replace />} 
             />
+            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route 
+                        path="/profile" 
+                        element={user ? <ProfileView /> : <Navigate to="/login" replace />} 
+                    />
             <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </div>

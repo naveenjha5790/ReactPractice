@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { Card, Col, Row,Button, Badge,Alert} from "react-bootstrap";
 export default function GetResource({currentUser,resource,setResource}){
     const [loading,setLoading]=React.useState(false);
     const [selectedResource,setSelectedResource]=React.useState(null);
+    const [alertMessage,setAlertMessage]=React.useState({type:"",text:""})
     const [newResource,setNewResource]=React.useState({
         name:"",
         resourceType:"Room",
@@ -29,7 +31,7 @@ export default function GetResource({currentUser,resource,setResource}){
         }
         catch(err){
             console.log(err);
-            alert("Something went wrong in loading resources")
+            setAlertMessage({type:"danger",text:"Something went wrong in loading resources"})
         }finally{
             setLoading(false);
         }
@@ -53,14 +55,13 @@ export default function GetResource({currentUser,resource,setResource}){
                 Created Timestamp: ${new Date(res.createdAt).toLocaleString()}
                 `.trim();
 
-        // 2. Alert the data string directly to the user's screen
-        alert(specificationsMessage);
+        setAlertMessage({type:"primary",text:specificationsMessage});
                 if (!response.ok) throw new Error("Failed to load the resource or the resource doesn't exist");
                 setSelectedResource(data.resource);
             }
             catch(err){
                 console.log(err);
-                alert("sOMETHING WENT WRON IN GETTING THAT RESOURCE",err);
+                setAlertMessage({type:"danger",text:"SOMETHING WENT WRON IN GETTING THAT RESOURCE"||err});
             
             }
         }
@@ -80,29 +81,42 @@ return(
             ):resource.length===0?(
                 <p>No resources found.</p>
             ):(
-                <div className="resourceManager2">
+                <Row xs={1} md={3}>
                     {resource.map((item)=>(
-                        <div className="resourceManager5" key={item._id}>
-                            <div className="rs5"><h5>{item.name} {!item.isActive && <span>(Inactive)</span>}</h5>
-                        <p>
-                            Type:{item.resourceType} <p/>
-                            <p>Capacity: {item.capacity}</p>
-                        <p>Rate: ₹{item.pricePerUnit}/{item.pricingType}</p>
-                        </p>
-                        <p>Located at:{item.location}</p></div>
+                        <Col key={item._id}>
+                            <Card className="h-100 shadow-sm border-0">
+                                <Card.Body className="d-flex justify-content-between"><Card.Title className="d-flex flex-column-row justify-content-between align-items-center mb-3 p-2">
+                                    <span className="fw-bold-text-dark">{item.name}</span>
+                                     {!item.isActive && (<Badge bg="danger">Inactive</Badge>)}</Card.Title>
+                        <Card.Text className="text-secondary small mb-3">
+                           <span className="d-block mb-1"> Type:{item.resourceType} </span>
+                          <span className="d-block mb-1"> Capacity: {item.capacity}</span>
+                    <span className="d-block mb-1">Rate: ₹{item.pricePerUnit}/{item.pricingType}</span>
+                        
+                   <span className="d-block mb-1">Located at:{item.location}</span>
+                   </Card.Text>
+                        
+                        
                         {isAdmin && (
-                            <button onClick={()=> viewSingleResource(item._id)} style={{backgroundColor:"darkgray",color:"floralwhite",fontWeight:700
-                            }}>View Detailed Admin Log</button>
+                            <Button variant="secondary" onClick={()=> viewSingleResource(item._id)} className="w-10 h-30 mt-3 fw-bold shadow-sm"
+                            size="sm"
+                            >View Detailed Admin Log</Button>
                         )}
-                        </div>
+                        </Card.Body>
+                        </Card>
+                       </Col>
 
                     ))}
             
-            </div>
+            </Row>
             )}
             
             </div>
-            
+            {alertMessage.text && (
+                <Alert variant={alertMessage.type} onClose={() => setAlertMessage({ type: "", text: "" })} dismissible>
+                    {alertMessage.text}
+                </Alert>
+            )}
             </div>
 
         

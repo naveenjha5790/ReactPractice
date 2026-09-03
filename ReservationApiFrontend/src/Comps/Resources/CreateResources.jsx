@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, Col, Container, Form ,Alert} from "react-bootstrap";
 export default function CreateResource({currentUser,resource,setResource}){
     const [newResource,setNewResource]=React.useState({
             name:"",
@@ -9,6 +10,7 @@ export default function CreateResource({currentUser,resource,setResource}){
             pricingType:"Hourly"
     
         });
+        const [alertMessage,setAlertMessage]=React.useState({type:"",text:""});
         const [submitting,setSubmitting]=React.useState(false);
     function handleChange(e) {
             const { name, value } = e.target;
@@ -34,7 +36,7 @@ export default function CreateResource({currentUser,resource,setResource}){
     
                     if (!response.ok) throw new Error("Failed to create a new resource");
                 
-                alert("Resource created successfully");
+               setAlertMessage({type:"success",text:"Resource created successfully"});
                 setNewResource({name:"",resourceType:"room",
                     location:"",
                     capacity:1,
@@ -45,7 +47,7 @@ export default function CreateResource({currentUser,resource,setResource}){
                 
             }catch(err){
                 console.log(err);
-                alert(err.message);
+                setAlertMessage({type:"danger",text:err.message});
             }finally{
                 setSubmitting(false);
             }
@@ -54,23 +56,25 @@ export default function CreateResource({currentUser,resource,setResource}){
         const isAdmin=currentUser?.role?.toLowerCase()==="admin";
         return (
             <>
-            <div className="rest">
+           
             {isAdmin && (
-                
-                <div className="resourceManager4">
-                    <h4>Add new Resource</h4>
-                    <form onSubmit={inputHandler}>
+                <div className="bg-success text-white p-3 mt-4 rounded">
+                    <h4 style={{color:"floralwhite"}}>Add new Resource</h4>
+                    <Form onSubmit={inputHandler} className="mb-3">
+                        <Form.Group className="mb-1">
                         <div>
-                            <label className="lb31">Resource Name: </label>
-                            <input type="text" name="name"
+                            <Form.Label>Resource Name: </Form.Label>
+                           <Form.Control type="text" name="name"
                             value={newResource.name}
                             onChange={handleChange} 
-                            required />
+                            className="mb-1"
+                            required>
+                            </Form.Control>
 
                         </div>
                         <div>
-                            <label className="lb31">Resource Type:</label>
-                            <select name="resourceType" className="lb4"
+                            <Form.Label>Resource Type:</Form.Label>
+                            <Form.Select name="resourceType"
                             value={newResource.resourceType}
                             onChange={handleChange} 
                             required>
@@ -78,42 +82,50 @@ export default function CreateResource({currentUser,resource,setResource}){
                     <option value="Hall">Hall</option>
                      <option value="Slots">Slots</option>
                     <option value="Equipment">Equipment</option>
-                            </select>
+                            </Form.Select>
                         </div>
                         <div>
-                            <label className="lb31">Capacity:(People/Units)</label>
-                            <input type="number" name="capacity" className="lb4"
-                            value={newResource.capacity} onChange={handleChange} 
-                            />
+                            <Form.Label>Capacity:(People/Units)</Form.Label>
+                            <Form.Control type="number" name="capacity" className="mb-1"
+                            value={newResource.capacity} onChange={handleChange} >
+                            </Form.Control>
                         </div>
                         <div>
-                            <label className="lb31">Location</label>
-                            <input type="text" name="location" className="lb4"
-                            value={newResource.location} onChange={handleChange} 
-                            />
+                            <Form.Label>Location</Form.Label>
+                            < Form.Control type="text" name="location" className="mb-1"
+                            value={newResource.location} onChange={handleChange}>
+                            </Form.Control>
 
                         </div>
                         <div>
-                            <label className="lb31">Price Per Unit (₹):</label>
-              <input type="number" name="pricePerUnit" min="0" value={newResource.pricePerUnit} onChange={handleChange}
-              className="lb4" />
+                            <Form.Label>Price Per Unit (₹):</Form.Label>
+              <Form.Control type="number" name="pricePerUnit" min="0" value={newResource.pricePerUnit} onChange={handleChange}
+              className="mb-1">
+              </Form.Control>
                         </div>
                         <div>
-                            <label className="lb31">Pricing Type Strategy:</label>
-              <select name="pricingType" value={newResource.pricingType} onChange={handleChange} className="lb4" >
+                            <Form.Label>Pricing Type Strategy:</Form.Label>
+              <Form.Select name="pricingType" value={newResource.pricingType} onChange={handleChange} className="mb-1" >
                 <option value="Hourly">Hourly</option>
                 <option value="Daily">Daily</option>
                 <option value="Fixed">Fixed</option>
-              </select>
+              </Form.Select>
                         </div>
-                        <button type="submit" disabled={submitting} className="rest1">
+                        <Button type="submit" disabled={submitting} variant="outline-light"
+                        >
                             {submitting ? "Saving to database...":"Save Resource Item"}
-                        </button>
-                    </form>
+                        </Button>
+                        </Form.Group>
+                    </Form>
+                    {alertMessage.text && (
+                        <Alert variant={alertMessage.type} onClose={() => setAlertMessage({ type: "", text: "" })} dismissible>
+                            {alertMessage.text}
+                        </Alert>
+                    )}
             </div>
            
             )}
-             </div>
+           
             
             </>
         )

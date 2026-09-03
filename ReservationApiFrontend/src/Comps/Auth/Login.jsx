@@ -1,5 +1,7 @@
 import React from "react";
+import { Button, Form ,Alert} from "react-bootstrap";
 export default function Login({setUser}){
+    const [alertMessage, setAlertMessage] = React.useState({ type: "", text: "" });
     const [newLogin,setNewLogin]=React.useState({
         email:"",
         password:""
@@ -15,7 +17,7 @@ export default function Login({setUser}){
     async function doLogin(use){
             use.preventDefault();
             if (!newLogin.email || !newLogin.password){
-                alert ("Please provide name and password");
+                setAlertMessage({type:"warning",text:"Please provide correct email and password"})
                 return;
             }
             setIsLogin(true);
@@ -42,26 +44,37 @@ export default function Login({setUser}){
             email:"",
             password:""
         });
-        alert("Login successfull!")
+        setAlertMessage({type:"success",text:"Login successfull!"})
             }
             catch(err){
-                console.log(err);
+                setAlertMessage({type:"danger",text:err.message || "Something went wrong"}
+                )
             }finally{
                 setIsLogin(false)
             }
     }
     return (
         <>
-        <div className="login">
-            <form onSubmit={doLogin} className="login1">
-                <input type="email" name="email" placeholder="Give your email"
-                value={newLogin.email} onChange={postHandler} />
-                <input type="password" name="password" placeholder="give your password"
-                value={newLogin.password} onChange={postHandler} />
-                <button type="submit" className="login2">
+        <div className="text-center">
+            <Form onSubmit={doLogin}>
+                <Form.Group className="mb-3 p-3">
+                    <Form.Control type="email" name="email" placeholder="Give your email"
+                value={newLogin.email} onChange={postHandler} className="mb-3 p-3 border-secondary" >
+                </Form.Control>
+                <Form.Control type="password" name="password" placeholder="give your password"
+                value={newLogin.password} onChange={postHandler} className="mb-1 p-3 border-warning">
+
+                </Form.Control>
+                </Form.Group>
+                <Button variant="warning" type="submit" className="p-4">
                     {isLogin ? "Logging In":"Login"}
-                </button>
-            </form>
+                </Button>
+            </Form>
+            {alertMessage.text && (
+                <Alert variant={alertMessage.type} onClose={() => setAlertMessage({ type: "", text: "" })} dismissible>
+                    {alertMessage.text}
+                </Alert>
+            )}
         </div>
         </>
     )

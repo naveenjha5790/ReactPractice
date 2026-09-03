@@ -1,7 +1,9 @@
 import React from "react";
+import { Form,Button, Row ,Col,Alert} from "react-bootstrap";
 export default function Create({onReservationSuccess,reservation,currentUser}){
      const isAdmin = currentUser?.role?.toLowerCase() === "admin";
     const [isAdminRequest, setIsAdminRequest] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState({ type: "", text: "" });
      const [newReservation,setNewReservation]=React.useState({
         userId:"",
         resourceId:"",
@@ -23,13 +25,13 @@ export default function Create({onReservationSuccess,reservation,currentUser}){
         use.preventDefault();
 
         if (!newReservation.resourceId || !newReservation.startTime || !newReservation.endTime || !newReservation.status){
-            alert ("Please select a resource and provide start and end Time and Status");
+             setAlertMessage({ type: "danger", text: "Please select a resource and provide dates!" });
             return;
         }
         const isAdmin = currentUser?.role?.toLowerCase() === "admin";
 
         if (isAdmin && !newReservation.userId.trim()) {
-        alert("As an administrator, you must specify a target User ID to book on their behalf.");
+        setAlertMessage({type:"primary",text:"As an administrator, you must specify a target User ID to book on their behalf."});
         return;
     }
         setIsLoading(true);
@@ -55,11 +57,11 @@ export default function Create({onReservationSuccess,reservation,currentUser}){
                 },
                 body:JSON.stringify(requestBody)});
             const data=await response.json();
-
+                    console.log("THE ACTUAL BACKEND API RESPONSE DATA OBJECT IS:", data);
             if (!response.ok){
                 throw new Error(data.msg || data.message ||"Failed to book resources")
             }
-            alert ("Reservation successfully created");
+            setAlertMessage({ type: "success", text: "Reservation successfully created!" });
         
         setNewReservation({userId:"",resourceId:"",startTime:"",endTime:""
             ,status:"Confirmed",notes:""
@@ -71,7 +73,7 @@ export default function Create({onReservationSuccess,reservation,currentUser}){
     }
     catch(err){
         console.log(err);
-        alert ("Something went wrong")
+      setAlertMessage({ type: "danger", text: err.message || "Something went wrong" });
     }finally {
         setIsLoading(false);
     }
@@ -87,14 +89,13 @@ export default function Create({onReservationSuccess,reservation,currentUser}){
   }
     return (
         <>
-        <div className="st1">
-        <div className="book">
-            <form onSubmit={handleNewReservation}>
-            
-            
-            <div className="book1">
-                <label htmlFor="resourceId">Book a reservation slot</label>
-                <select 
+        <div className="text-white p-3 mt-4 rounded justify-content-center bg-primary">
+            <Form onSubmit={handleNewReservation} className="mb-2">
+            <Form.Group className="mb-1">
+                <Form.Label htmlFor="resourceId" 
+                className="fw-bold">Book a reservation slot
+                </Form.Label>
+                <Form.Select
                 id="resourceId"
                 name="resourceId"
                 value={newReservation.resourceId}
@@ -109,11 +110,14 @@ export default function Create({onReservationSuccess,reservation,currentUser}){
                         {resources.name} {resources.location ? `(${resources.location})`:""}
                     </option>
                 ))}
-                </select>
-            </div>
-            <div className="book1">
-                <label htmlFor="startTime">
-                    <input 
+                </Form.Select>
+            </Form.Group>
+            <Row className="mb-3">
+                <Col sm={12} md={6}>
+                <Form.Group className="mb-3">
+                <Form.Label htmlFor="startTime"
+                className="fw-bold">Start Time</Form.Label>
+                    <Form.Control
                     type="datetime-local"
                     id="startTime"
                     name="startTime"
@@ -121,9 +125,14 @@ export default function Create({onReservationSuccess,reservation,currentUser}){
                     onChange={inputHandler}
                     value={newReservation.startTime}
                     required />
-                </label>
-                <label htmlFor="endTime">
-                    <input 
+                
+                </Form.Group>
+                </Col>
+
+                <Col sm={12} md={6}>
+                <Form.Group className="mb-3">
+                <Form.Label htmlFor="endTime">End Time</Form.Label>
+                    <Form.Control
                     type="datetime-local"
                     id="endTime"
                     name="endTime"
@@ -131,51 +140,66 @@ export default function Create({onReservationSuccess,reservation,currentUser}){
                     value={newReservation.endTime}
                     onChange={inputHandler}
                     required />
-                </label>
-                <label htmlFor="status">Status setting</label>
-                    <select
+                
+                </Form.Group>
+                </Col>
+                </Row>
+                <Form.Group className="mb-3">
+                <Form.Label htmlFor="status">Status setting</Form.Label>
+                    <Form.Select
                 id="status"
                 name="status"
                 value={newReservation.status}
                 onChange={inputHandler}
-                style={{ padding: "10px", width: "100%" }}
                 required
               >
                 <option value="Confirmed">Confirmed</option>
                 <option value="Pending">Pending</option>
                 <option value="Cancelled">Cancelled</option>
-              </select>
-                  </div>
+              </Form.Select>
+              </Form.Group>
             
-              <div style={{ backgroundColor: "#e2f0fe", padding: "10px", borderRadius: "4px", margin: "15px 0" }}>
-              <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "14px", color: "#004085" }}>
-                <input
+              <div>
+                <Form.Group className="mb-3">
+             
+                <Form.Check
+                className="w-20 text-light"
                   type="checkbox"
                   checked={isAdminRequest}
+                  label="Can't book yourself? Send request to Admin instead"
                   onChange={(e) => setIsAdminRequest(e.target.checked)}
                 />
-                Can't book yourself? Send request to Admin instead
-              </label>
+                </Form.Group>
+                
 
                 {isAdminRequest && (
-                  <textarea
+                    <Form.Group className="mb-3 p-3 bg-light rounded text-dark">
+                    <Form.Label className="text-primary small fw-bold">Reason for Escalation:</Form.Label>
+                  <Form.Control
+                  as="textarea"
+                  rows={3}
                     name="notes"
+                    className="text-black"
                     placeholder="Provide details for why you are escalating this slot reservation request..."
                     value={newReservation.notes || ""}
                     onChange={inputHandler}
-                    style={{ width: "100%", marginTop: "8px", padding: "5px", boxSizing: "border-box" }}
                     required
                   />
+                  </Form.Group>
                 )}
                 </div>
                   
-                <button type="submit" className="btn"
+                <Button type="submit" 
+                className="w-100 fw-bold mt-2 shadow-sm py-2"
                 disabled={submitting || isLoading}>
                     {submitting ? "Processing Booking ...":"Confirm Reservation"}
-                </button>
-          
-            </form>
-        </div>
+                </Button>
+            </Form>
+            {alertMessage.text && (
+    <Alert variant={alertMessage.type} onClose={() => setAlertMessage({ type: "", text: "" })} dismissible>
+        {alertMessage.text}
+    </Alert>
+)}
         </div>
         </>
     )

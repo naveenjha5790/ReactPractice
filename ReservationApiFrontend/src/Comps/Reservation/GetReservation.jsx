@@ -1,9 +1,11 @@
 import React from "react";
+import { Card, Col, Row, Button,Alert} from "react-bootstrap";
 
 const GetReservation=React.forwardRef(({currentUser, reservation,setReservation},ref)=>{
     const [isDeleting,setIsDeleting]=React.useState(false);
     const [loading,setLoading]=React.useState(false);
     const [isApproving, setIsApproving] = React.useState(false);
+    const [alertMessage,setAlertMessage]=React.useState({type:"",text:""})
     const [details,setDetails]=React.useState(false);
     const [newReservation,setNewReservation]=React.useState({
             resourceId:"",
@@ -25,7 +27,7 @@ const GetReservation=React.forwardRef(({currentUser, reservation,setReservation}
         try{
             const token=localStorage.getItem("token");
             if (!token){
-                alert("No authentication token for the user");
+                setAlertMessage({type:"danger",text:"No authentication token for the user"});
                 return;
             }
 
@@ -41,8 +43,7 @@ const GetReservation=React.forwardRef(({currentUser, reservation,setReservation}
             setReservation(data.reservation || []);
         }
         catch(err){
-            console.log(err);
-            alert (err);
+            setAlertMessage({type:"danger",text:err})
         }finally {
             setLoading(false);
         }
@@ -67,11 +68,11 @@ const GetReservation=React.forwardRef(({currentUser, reservation,setReservation}
                 throw new Error(data.message || "Failed to update reservation status");
             }
             
-            alert("Reservation approved and completed successfully!");
+            setAlertMessage({type:"success",text:"Reservation approved and completed successfully!"});
             getRes(); // Reload the layout grid to pull live database changes
         } catch (err) {
             console.error(err);
-            alert(err.message || "Something went wrong during approval");
+            setAlertMessage({type:"danger",text:err.message || "Something went wrong during approval"});
         } finally {
             setIsApproving(false);
         }
@@ -104,7 +105,7 @@ const GetReservation=React.forwardRef(({currentUser, reservation,setReservation}
             if (!response.ok){
                 throw new Error(data.message || "failed to complete deletion")
             }
-            alert (data.msg || "Reservation successfully deleted");
+            setAlertMessage({type:"success",text:data.msg || "Reservation successfully deleted"});
             setReservation((prevs)=>
             prevs.filter((item)=> item._id !== reservationId));
         }catch(err){
@@ -116,86 +117,109 @@ const GetReservation=React.forwardRef(({currentUser, reservation,setReservation}
     
     
     return (
+    <div>
+        {loading && <p style={{ textAlign: "center" }}>Loading reservations...</p>}  
+        {alertMessage.text && (
+            <Alert variant={alertMessage.type} onClose={() => setAlertMessage({ type: "", text: "" })} dismissible>
+                {alertMessage.text}
+            </Alert>
+        )}
         <div>
-          {loading && <p style={{ textAlign: "center" }}>Loading reservations...</p>}  
-        
-        <div>
-        {reservation && reservation.length >0 && (
-        <>
-        <div className="resourceManager4">
-            <h3 style={{color:"black",fontWeight:600}}>List of Reservations</h3>
-        {reservation.map((item) => (
-           
-    <div className="ss3" key={item._id}>
-         <div className="ss1">
-       <p>
-            <strong>Resource Name:</strong> {
-                item.resourceId && typeof item.resourceId === "object" 
-                    ? item.resourceId.name 
-                    : "N/A"
-            }
-        </p><p>
-            <strong>Type:</strong> {
-                item.resourceId && typeof item.resourceId === "object" 
-                    ? item.resourceId.resourceType 
-                    : "N/A"
-            }
-        </p>
+            {reservation && reservation.length > 0 && (
+                <div className="resourceManager4 container my-4">
+                    <h3 className="mb-4" style={{ color: "black", fontWeight: 600 }}>List of Reservations</h3>
+                    
+                    <Row xs={1} md={2} lg={3} className="g-4">
+                        {reservation.map((item) => (
+                            <Col key={item._id}>
+                                <Card className="h-100 shadow-sm border-0 bg-white">
+                                    <Card.Body className="d-flex flex-column justify-content-between p-3">
+                                        
+                                        <div>
+                                            
+                                            <Card.Title className="d-flex justify-content-between align-items-start
+                                             mb-3 border-bottom pb-2">
+                                                <span className="fw-bold text-dark fs-5">
+                                                    {item.resourceId && typeof item.resourceId === "object" 
+                                                        ? item.resourceId.name 
+                                                        : "N/A"}
+                                                </span>
+                                            </Card.Title>
+                                    
+                                            <Card.Text className="text-secondary small mb-2">
+                                                <strong>Type:</strong> {
+                                                    item.resourceId && typeof item.resourceId === "object" 
+                                                        ? item.resourceId.resourceType 
+                                                        : "N/A"
+                                                }
+                                            </Card.Text>
 
-        <p>
-            <strong>Location:</strong> {
-                item.resourceId && typeof item.resourceId === "object" 
-                    ? item.resourceId.location 
-                    : "N/A"
-            }
-        </p>
-        <p><strong>Status:</strong> {item.status}</p>
-        <p>
-                    <strong>Start Time:</strong> {item.startTime ? new Date(item.startTime).toLocaleString() : "N/A"}
-                </p>
-                <p>
-                    <strong>End Time:</strong> {item.endTime ? new Date(item.endTime).toLocaleString() : "N/A"}
-                </p>
-                
-                    {item.notes && (
-                        <p>
-                            <strong>User Note:</strong> {item.notes}
-                                        </p>
-                            
-                    )}
-                
+                                            <Card.Text className="text-secondary small mb-2"> 
+                                                <strong>Location:</strong> {
+                                                    item.resourceId && typeof item.resourceId === "object" 
+                                                        ? item.resourceId.location 
+                                                        : "N/A"
+                                                }
+                                            </Card.Text>
+                                
+                                            <Card.Text className="text-secondary small mb-2">
+                                                <strong>Status:</strong>{" "}
+                                                <span className={`fw-bold ${item.status === 'Approved' ? 'text-success' : 'text-warning'}`}>
+                                                    {item.status}
+                                                </span>
+                                            </Card.Text>
+                                
+                                            <Card.Text className="text-secondary small mb-2">
+                                                <strong>Start Time:</strong> {item.startTime ? new Date(item.startTime).toLocaleString() : "N/A"}
+                                            </Card.Text>
+                                        
+                                            <Card.Text className="text-secondary small mb-3">
+                                                <strong>End Time:</strong> {item.endTime ? new Date(item.endTime).toLocaleString() : "N/A"}
+                                            </Card.Text>
+                                            
+                                            {item.notes && (
+                                                <Card.Text className="p-2 bg-light rounded small border-start border-primary">
+                                                    <strong>User Note:</strong> {item.notes}
+                                                </Card.Text>
+                                            )}
+                                        </div>
+
+                                    
+                                        <div className="d-grid gap-2 mt-3">
+                                            {isAdmin && item.status === "Admin Request Pending" && (
+                                                <Button 
+                                                    type="button"
+                                                    variant="success"
+                                                    onClick={() => handleApproveRequest(item._id)}
+                                                    disabled={isApproving}
+                                                    className="fw-bold shadow-sm py-2"
+                                                >
+                                                    {isApproving ? "Approving..." : "Approve & Book Slot"}
+                                                </Button>
+                                            )}
+                                            
+                                            <Button 
+                                                type="button"
+                                                variant="danger"
+                                                onClick={() => handleDeleteReservation(item._id)}
+                                                disabled={isDeleting}
+                                                className="fw-bold shadow-sm py-2"
+                                            >
+                                                {isDeleting ? "Processing..." : "Cancel / Delete"}
+                                            </Button>
+                                        </div>
+
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>
                 </div>
-                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                                   
-                                    {isAdmin && item.status === "Admin Request Pending" && (
-                                        <button 
-                                            type="button"
-                                            onClick={() => handleApproveRequest(item._id)}
-                                            disabled={isApproving}
-                                            style={{ backgroundColor: "#16a34a", color: "white", cursor: "pointer", fontSize: "14px", padding: "10px", margin: "5px" }}
-                                        >
-                                            {isApproving ? "Approving..." : "Approve & Book Slot"}
-                                        </button>
-                                    )}
-                                    </div>
-        <button 
-            type="button"
-            onClick={() => handleDeleteReservation(item._id)}
-            disabled={isDeleting}
-            style={{ backgroundColor: "#dc2626", color: "white", cursor: "pointer",fontSize:"14px",padding:"10px"
-                ,margin:"5px"
-            }}
-        >
-            {isDeleting ? "Processing..." : "Cancel/Delete Reservation"}
-        </button>
+            )}
+        </div>
+        
     </div>
-))}
-</div>
+);
 
-    
-       </> )}
-        </div>
-        </div>
-    )
 });
 export default GetReservation;
