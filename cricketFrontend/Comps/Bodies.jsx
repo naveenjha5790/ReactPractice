@@ -4,7 +4,7 @@ import Get from "./Get";
 import PatchDelete from "./PatchDelete";
 export default function Bodies({ view, cricketer, setCricketer }) {
     return (
-        <div style={{ marginTop: "20px" }}>
+        <div style={{ marginTop: "20px",paddingTop:"30px" }}>
             {view === "add" && <Post setCricketer={setCricketer} />}
             {view === "show" && <Get cricketer={cricketer} setCricketer={setCricketer} />}
             {view === "update" && <PatchDelete cricketer={cricketer} setCricketer={setCricketer} />}

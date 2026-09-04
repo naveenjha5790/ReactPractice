@@ -8,22 +8,21 @@ function App() {
   return (
     <>
      <Header />
-    <main className='container'>
+    <main>
       {curView === "menu" && (
-          <div className='frontMenu'>
-            <div className='frontMenu1'>
-              <button className='btn' onClick={() => setCurView("show")}>Show cricketers</button>
-              <button className='btn' onClick={() => setCurView("add")}>Add Cricketers</button>
-              <button className='btn' onClick={() => setCurView("update")}>Update Stats of cricketers</button>
+          <div className='container-lg container-text-center'>
+           
+              <button className='btn btn-success rounded btn-lg mb-3 mt-5' onClick={() => setCurView("show")}>Show cricketers</button>
+              <button className='btn btn-danger rounded btn-lg mb-3' onClick={() => setCurView("add")}>Add Cricketers</button>
+              <button className='btn btn-info rounded btn-lg mb-3' onClick={() => setCurView("update")}>Update Stats of cricketers</button>
             </div>
-          </div>
         )}
 
         {curView !== "menu" && (
           <div>
-            <button className='btnBack' onClick={() => setCurView("menu")}>⬅️ Back to Main Menu</button>
             
-            {/* 🔑 FIX: Pass cricketer and setCricketer down into Bodies */}
+            <button className='btn btn-warning btn-sm' onClick={() => setCurView("menu")}>⬅️ Back to Main Menu</button>
+            
             <Bodies 
               view={curView} 
               cricketer={cricketer} 

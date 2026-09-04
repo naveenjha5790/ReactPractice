@@ -58,18 +58,32 @@ export default function Post({setCricketer}){
         }
     }
 return (
-<div className="add">
-            <h3 className="h3">Add new Cricketer</h3>
-            <form onSubmit={handleNewCricketer} className="adds">
-                <input type="text" name="name" placeholder="Full Name" value={newCricketer.name} onChange={postHandler} />
-                <input type="text" name="country" placeholder="Country" value={newCricketer.country} onChange={postHandler} />
-                <input type="number" name="tests" placeholder="Tests played" value={newCricketer.tests} onChange={postHandler} />
-                <input type="number" name="runs" placeholder="Runs scored" value={newCricketer.runs} onChange={postHandler} />
-                <input type="number" name="batAvg" placeholder="Batting Average" value={newCricketer.batAvg} onChange={postHandler} />
-                <input type="number" name="wickets" placeholder="Wickets Taken" value={newCricketer.wickets} onChange={postHandler} />
-                <input type="number" name="highestScore" placeholder="Highest Score" value={newCricketer.highestScore} onChange={postHandler} />
-                <input type="number" name="bowlAvg" placeholder="Bowling Average" value={newCricketer.bowlAvg} onChange={postHandler} />
-                <button type="submit" className="sub">{isLoading ? "Saving Entry" : "Create Cricketers profile"}</button>
+<div className="container mt-4">
+            <h3 className="text-bold text-center text-info mb-4">Add new Cricketer</h3>
+            <form onSubmit={handleNewCricketer}>
+                
+                <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                    <div className="col mb-2">
+                    <input type="text" name="name" placeholder="Full Name" value={newCricketer.name} onChange={postHandler} className="form-control"/>
+                </div><div className="col mb-2">
+                   <input type="text" name="country" placeholder="Country" value={newCricketer.country} onChange={postHandler} className="form-control" />
+                </div><div className="col mb-2">
+                    <input type="number" name="tests" placeholder="Tests played" value={newCricketer.tests} onChange={postHandler} className="form-control" />
+                </div><div className="col mb-2">
+                    <input type="number" name="runs" placeholder="Runs scored" value={newCricketer.runs} onChange={postHandler} className="form-control" />
+                </div><div className="col mb-2">
+                    <input type="number" name="batAvg" placeholder="Batting Average" value={newCricketer.batAvg} onChange={postHandler} className="form-control" />
+               </div>
+                <div className="col mb-2">
+                    <input type="number" name="wickets" placeholder="Wickets Taken" value={newCricketer.wickets} onChange={postHandler} className="form-control" />
+                </div>
+                <div className="col mb-2">
+                    <input type="number" name="highestScore" placeholder="Highest Score" value={newCricketer.highestScore} onChange={postHandler} className="form-control" />
+                </div>
+                <div className="col mb-2">
+                   <input type="number" name="bowlAvg" placeholder="Bowling Average" value={newCricketer.bowlAvg} onChange={postHandler} className="form-control"/> 
+                   </div></div>
+                <button type="submit" className="btn btn-success btn-align-items-center">{isLoading ? "Saving Entry" : "Create Cricketers profile"}</button>
             </form>
         </div>
 )

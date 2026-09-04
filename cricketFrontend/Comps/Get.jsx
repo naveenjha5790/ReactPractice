@@ -32,7 +32,6 @@ export default function Get({setCricketer,cricketer}){
                 if (filters.sort) queryParams.append("sort", filters.sort);
                 if (filters.numericFilters) queryParams.append("numericFilters", filters.numericFilters);
     
-                // 🟢 FIX: Verified route matches your /api/cricket base parameter endpoint route
                 const numericArray=[];
                 if (filters.minRuns) numericArray.push(`runs>${filters.minRuns}`)
                 if (filters.minBatAvg) numericArray.push(`batAvg>${filters.minBatAvg}`);
@@ -68,15 +67,13 @@ export default function Get({setCricketer,cricketer}){
                 setIsLoading(false);
             }
         }
-    
-        // FUNCTION B: Isolated Standard Home View Data Fetcher
+
         async function getCricketer() {
             setIsLoading(true);
             try {
                 const response = await fetch("http://localhost:5000/");
                 const data = await response.json();
                 
-                // 🟢 FIX: Target data.tasks wrapper object payload
                 setCricketer(data.tasks || []);
             } catch(err) {
                 console.error("Home route query failed:", err);
@@ -85,7 +82,6 @@ export default function Get({setCricketer,cricketer}){
             }
         }
     
-        // 🟢 FIX: Trigger only the basic default home route on initial page load
         useEffect(() => {
             getCricketer();
         }, []); // Empty array ensures this triggers only once when the page loads
@@ -97,87 +93,114 @@ export default function Get({setCricketer,cricketer}){
 
         <>
          
-            <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <button className="btn2" onClick={td}>
-                    {details ? "Hide All Details" : "Show All Statistics"}
-                </button>
-            </div>
+            
 
             <div className="filter">
-                <input type="text" name="search" placeholder="🔍 Search name..." value={filters.search} onChange={inputHandler} className="search"/>
+                
+                <div className="container mt-3">
+                    <div className="row">
+                        <div className="col-12 col-md-6 col-lg-4">
 
-                <select name="sort" value={filters.sort} onChange={inputHandler} className="opts">
+                
+                <input type="text" name="search" placeholder="🔍 Search name..." value={filters.search} onChange={inputHandler} className="form-control"/>
+                 </div>
+                 <div className="col-12 col-md-6 col-lg-4">
+                <select name="sort" value={filters.sort} onChange={inputHandler} className="form-select">
                     <option value="name">Sort by Name (A-Z)</option>
                     <option value="-name">Sort by Name (Z-A)</option>
                     <option value="-runs">Most Runs</option>
                     <option value="-batAvg">Highest Average</option>
                     <option value="-wickets">Most Wickets</option>
                     <option value="bowlAvg">Best Bowling Avg</option>
-                </select>
-
-                <select name="fields" value={filters.fields} onChange={inputHandler} className="opts">
+                </select></div>
+                    <div className="col-12 col-md-6 col-lg-4">
+                <select name="fields" value={filters.fields} onChange={inputHandler} className="form-select">
                     <option value="">Show All Data Columns</option>
                     <option value="name,country">Only Name and Country</option>
                     <option value="name,runs,batAvg,highestScore">Only Batting Stats</option>
                     <option value="name,wickets,bowlAvg">Only Bowling Stats</option>
                 </select>
-                <div className="numeric">
-                    <label className="numeric1">Runs over:
+                </div>
+                </div>
+                </div>
+                <div className="container mt-3">
+                <form>
+                    <div className="row">
+                    <div className="col-12 col-md-6 col-lg-3">
+                    <label className="form-label">Runs over:
                         <input type="number" name="minRuns" placeholder="e.g 1000" 
-                        value={filters.minRuns} onChange={inputHandler}/>
+                        value={filters.minRuns} onChange={inputHandler}
+                        className="form-control" />
                     </label>
-                     <label className="numeric1">Batting Average Over:
+                    </div>
+                    <div className="col-12 col-md-6 col-lg-3">
+                     <label className="form-label col">Batting Average Over:
                         <input type="number" name="minBatAvg" placeholder="e.g 50" 
-                        value={filters.minBatAvg} onChange={inputHandler}/>
+                        value={filters.minBatAvg} onChange={inputHandler}
+                        className="form-control" />
                     </label>
-                     <label className="numeric1">Tests over:
+                    </div>
+                     <div className="col-12 col-md-6 col-lg-3">
+                     <label className="form-label">Tests over:
                         <input type="number" name="minTests" placeholder="e.g 100" 
-                        value={filters.minTests} onChange={inputHandler}/>
-                    </label>
-                     <label className="numeric1">Wickets over:
+                        value={filters.minTests} onChange={inputHandler}
+                        className="form-control" />
+                    </label></div>
+                     <div className="col-12 col-md-6 col-lg-3">
+                     <label className="form-label">Wickets over:
                         <input type="number" name="minWickets" placeholder="e.g 100" 
-                        value={filters.minWickets} onChange={inputHandler}/>
-                    </label>
-                     <label className="numeric1">Runs under:
+                        value={filters.minWickets} onChange={inputHandler}
+                        className="form-control" />
+                    </label></div>
+                     <div className="col-12 col-md-6 col-lg-3">
+                     <label className="form-label">Runs under:
                         <input type="number" name="maxRuns" placeholder="e.g 1000" 
-                        value={filters.maxRuns} onChange={inputHandler}/>
-                    </label>
-                    
-                     <label className="numeric1">Bowl Average Under:
+                        value={filters.maxRuns} onChange={inputHandler}
+                        className="form-control" />
+                    </label></div>
+                     <div className="col-12 col-md-6 col-lg-3">
+                     <label className="form-label">Bowl Average Under:
                         <input type="number" name="maxBowlAvg" placeholder="e.g 30" 
-                        value={filters.maxBowlAvg} onChange={inputHandler}/>
-                    </label>
-                     <label className="numeric1">Tests under:
+                        value={filters.maxBowlAvg} onChange={inputHandler}
+                        className="form-control" />
+                    </label></div>
+                     <div className="col-12 col-md-6 col-lg-3">
+                     <label className="form-label">Tests under:
                         <input type="number" name="maxTests" placeholder="e.g 100" 
-                        value={filters.maxTests} onChange={inputHandler}/></label>
-                     <label className="numeric1">Wickets Under:
+                        value={filters.maxTests} onChange={inputHandler}
+                        className="form-control"/></label></div>
+                         <div className="col-12 col-md-6 col-lg-3">
+                     <label className="form-label">Wickets Under:
                         <input type="number" name="maxWickets" placeholder="e.g 100" 
-                        value={filters.maxWickets} onChange={inputHandler}/>
-                    </label>
-
+                        value={filters.maxWickets} onChange={inputHandler}
+                         className="form-control" />
+                    </label></div>
+                  </div>
+                  </form>
                 </div>
 
-                <button className="btn1" onClick={filterStats}>
+                <button className="btn btn-success mb-3 btn-lg" onClick={filterStats}>
                     {isLoading ? "Syncing..." : "Apply Filters"}
                 </button>
 
-                {/* Main Render Grid Display Area */}
-                <div className="wrapper">
+                <div className="container mt-4">
                     {!cricketer || cricketer.length === 0 ? (
-                        <p style={{ textAlign: "center", color: "#666", padding: "20px" }}>📭 No records match active configurations.</p>
+                        <div className="text-center text-muted p-5 bg-light rounded">📭 No records match active configurations.</div>
                     ) : (
-                        <ul className="crics" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", listStyle: "none", padding: 0 }}>
+                        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3" >
                             {cricketer.map(cric => {
                                 if (filters.sort ==='bowlAvg' && (cric.wickets===0 || !cric.bowlAvg)){
                                     return null;
                                 }return (
-                                <li className="cricCard" key={cric._id} style={{ border: "1px solid #ddd", padding: "15px", borderRadius: "8px", background: "#fff" }}>
-                                    <h3>{cric.name}</h3>
-                                    {cric.country && <p style={{ color: "#777", margin: "2px 0" }}>📍 {cric.country}</p>}
-                                    
-                                    {/* Clean list displaying stats under a single card wrapper */}
+                                <div className="col" key={cric._id} >
+                                    <div className="card h-100 shadow-sm">
+                                        <div className="card-body">
+                                    <h3 className="card-title fw-bold text-dark">{cric.name}</h3>
+                                    {cric.country && <p className="card-subtitle test-muted mb-3">📍 {cric.country}</p>}
+
                                     {details && (
-                                        <ul className="cricStats" style={{ marginTop: "10px", paddingTop: "10px", borderTop: "1px solid #eee", listStyleType: "none", padding: 0 }}>
+                                        <div className="border-top mt-2 pt-3">
+                                        <ul className="list-unstyled mb-0 lh-lg" style={{ marginTop: "10px", paddingTop: "10px", borderTop: "1px solid #eee", listStyleType: "none", padding: 0 }}>
                                             {cric.tests !== undefined && <li><strong>Tests: </strong>{cric.tests}</li>}
                                             {cric.runs !== undefined && <li><strong>Runs Scored: </strong>{cric.runs}</li>}
                                             {cric.batAvg !== undefined && <li><strong>Batting Average: </strong>{cric.batAvg}</li>}
@@ -185,15 +208,22 @@ export default function Get({setCricketer,cricketer}){
                                             {cric.wickets > 0 && <li><strong>Wickets: </strong>{cric.wickets}</li>}
                                             {cric.bowlAvg > 0 && <li><strong>Bowling Average: </strong>{cric.bowlAvg}</li>}
                                         </ul>
+                                        </div>
                                     )}
-                                </li>
+                                    </div>
+                                    </div>
+                                </div>
                                 )
                             })} 
-                        </ul>
+                        </div>
                     )})
                 </div> 
             </div>
-                
+                <div>
+                <button className="btn btn-primary" onClick={td}>
+                    {details ? "Hide All Details" : "Show All Statistics"}
+                </button>
+            </div>
             </>
     )
 }

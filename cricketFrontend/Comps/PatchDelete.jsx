@@ -16,6 +16,7 @@ const [isDeleting, setIsDeleting] = React.useState(false);
     });
     const [isSubmit,setIsSubmit]=React.useState(false);
     
+    
     React.useEffect(() => {
         async function fetchInitialCricketers() {
             if (!cricketer || cricketer.length === 0) {
@@ -122,46 +123,58 @@ const [isDeleting, setIsDeleting] = React.useState(false);
     return (
         <>
         <div className="patch">
-            <h3 style={{display:"flex",justifyContent:"center",fontSize:"28px",marginBottom:"15px"}}>Manage Cricketer Profile</h3>
-            <div style={{ marginBottom: "20px" }}>
-                <label style={{ marginBottom: "25px"}}><strong>Choose a Player to Edit:</strong></label>
-                <select value={selectedId} onChange={handleCricketerSelect} style={{ width: "30%", padding: "10px", marginLeft:"15px",borderRadius: "8px", border: "1px solid #ccc",alignItems:"center"}}>
+            <h3 className="text-bold text-center">Manage Cricketer Profile</h3>
+            <div>
+                <label className="form-label"><strong>Choose a Player to Edit:</strong></label>
+                <select value={selectedId} onChange={handleCricketerSelect} className="form-select">
                     <option value="">-- Click to choose a player --</option>
                     {cricketer && cricketer.map(c => (
                         <option key={c._id} value={c._id}>{c.name}</option>
                     ))}
                 </select>
             </div>
-        {selectedId && <form onSubmit={handleSubmit} className="patch1">
-            <label className="lb1">Name
-                    <input type="text" className="lb2" name="name" value={formData.name} onChange={handleInput}  required />
-                </label>
-            <label className="lb1">Country
-                    <input type="text" className="lb2" name="country" value={formData.country} onChange={handleInput}  />
-                </label>
-            <label className="lb1">Tests Played
-                    <input type="number" className="lb2" name="tests" value={formData.tests} onChange={handleInput} />
-                </label>
-            <label className="lb1">Runs Scored
-                    <input type="number" className="lb2" name="runs" value={formData.runs} onChange={handleInput}  />
-                </label>
-            <label className="lb1">Batting Average
-                    <input type="number" className="lb2" name="batAvg" value={formData.batAvg} onChange={handleInput} />
-                </label>
+        {selectedId && <form onSubmit={handleSubmit} >
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 align-items-center justify-content-center">
+                <div className="col">
+            <label className="form-label">Name
+                    <input type="text" className="form-control" name="name" value={formData.name} onChange={handleInput}  required />
+                </label></div>
+                 <div className="col">
+            <label className="form-label">Country
+                    <input type="text" className="form-control" name="country" value={formData.country} onChange={handleInput}  />
+                </label></div>
+                 <div className="col">
+            <label className="form-label">Tests Played
+                    <input type="number" className="form-control" name="tests" value={formData.tests} onChange={handleInput} />
+                </label></div>
+                 <div className="col">
+            <label className="form-label">Runs Scored
+                    <input type="number" className="form-control" name="runs" value={formData.runs} onChange={handleInput}  />
+                </label></div>
+                 <div className="col">
+            <label className="form-label">Batting Average
+                    <input type="number" className="form-control" name="batAvg" value={formData.batAvg} onChange={handleInput} />
+                </label></div>
+                 <div className="col">
             <label className="lb1">Highest Score
-                    <input type="number" className="lb2" name="highestScore" value={formData.highestScore} onChange={handleInput} />
+                    <input type="number" className="form-control" name="highestScore" value={formData.highestScore} onChange={handleInput} />
+                </label></div>
+                 <div className="col">
+            <label className="form-label">Bowling Average
+                    <input type="number" className="form-control" name="bowlAvg" value={formData.bowlAvg} onChange={handleInput} />
                 </label>
-            <label className="lb1">Bowling Average
-                    <input type="number" className="lb2" name="bowlAvg" value={formData.bowlAvg} onChange={handleInput} />
+                </div>
+                 <div className="col">
+            <label className="form-label">Wickets
+                    <input type="number" className="form-control" name="wickets" value={formData.wickets} onChange={handleInput}  />
                 </label>
-            <label className="lb1">Wickets
-                    <input type="number" className="lb2" name="wickets" value={formData.wickets} onChange={handleInput}  />
-                </label>
-                <button type="submit" className="sub"> 
+                </div>
+                </div>
+                <button type="submit" className="btn btn-info"> 
                     {isSubmit ? "Update Cricketer Profile":"Updating Data"}</button>
                     <button 
                             type="button" 
-                            className="sub1" 
+                            className="btn btn-danger" 
                             onClick={handleDeleteClick} 
                             disabled={isSubmit || isDeleting}
                             
